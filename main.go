@@ -39,12 +39,17 @@ func main() {
 	cs.register("register", handlerRegister)
 	cs.register("reset", handlerReset)
 	cs.register("users", handlerGetUsers)
+	cs.register("agg", handlerAgg)
+	cs.register("addfeed", handlerAddFeed)
+	cs.register("feeds", handlerGetFeeds)
+	cs.register("follow", handlerFollow)
+	cs.register("following", handlerFollowing)
 
 	args := os.Args
-	if len(args) < 2 {
-		log.Fatal("Program needs more arguments")
-		os.Exit(1)
-	}
+	// if len(args) < 2 {
+	// 	log.Fatal("Program needs more arguments")
+	// 	os.Exit(1)
+	// }
 
 	commandName := args[1]
 	commandArgs := args[2:]
