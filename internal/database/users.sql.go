@@ -58,10 +58,11 @@ func (q *Queries) DeleteUsers(ctx context.Context) error {
 
 const getUser = `-- name: GetUser :one
 select id, created_at, updated_at, name from users
+where name = $1 limit 1
 `
 
-func (q *Queries) GetUser(ctx context.Context) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUser)
+func (q *Queries) GetUser(ctx context.Context, name string) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUser, name)
 	var i User
 	err := row.Scan(
 		&i.ID,
@@ -70,4 +71,36 @@ func (q *Queries) GetUser(ctx context.Context) (User, error) {
 		&i.Name,
 	)
 	return i, err
+}
+
+const getUsers = `-- name: GetUsers :many
+select id, created_at, updated_at, name from users
+`
+
+func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
+	rows, err := q.db.QueryContext(ctx, getUsers)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []User
+	for rows.Next() {
+		var i User
+		if err := rows.Scan(
+			&i.ID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Name,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }

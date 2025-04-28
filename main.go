@@ -37,7 +37,8 @@ func main() {
 	}
 	cs.register("login", handlerLogin)
 	cs.register("register", handlerRegister)
-	cs.register("delete", handlerDeleteUsers)
+	cs.register("reset", handlerReset)
+	cs.register("users", handlerGetUsers)
 
 	args := os.Args
 	if len(args) < 2 {
