@@ -43,6 +43,5 @@ func handlerFollow(s *state, cmd command) error {
 
 	fmt.Println(follows[0].FeedName)
 	fmt.Println(follows[0].UserName)
-
 	return nil
 }

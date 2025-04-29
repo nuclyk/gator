@@ -21,6 +21,5 @@ func handlerGetUsers(s *state, cmd command) error {
 		}
 		fmt.Println()
 	}
-
 	return nil
 }

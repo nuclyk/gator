@@ -16,10 +16,10 @@ import (
 func handlerAddFeed(s *state, cmd command) error {
 	username := s.cfg.CurrentUserName
 	currentUser, err := s.db.GetUser(context.Background(), username)
+
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when fetching the user: %v", err)
 		os.Exit(1)
-
 	}
 
 	if len(cmd.args) == 0 {
@@ -58,6 +58,5 @@ func handlerAddFeed(s *state, cmd command) error {
 	}
 
 	fmt.Printf("ID: %v\nCreated at: %v\nUpdated at: %v\nName: %v\nUrl: %v\nUser ID: %v\n", feed.ID, feed.CreatedAt, feed.UpdatedAt, feed.Name, feed.Url, feed.UserID)
-
 	return nil
 }

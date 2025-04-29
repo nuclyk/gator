@@ -14,6 +14,5 @@ func handlerAgg(s *state, cmd command) error {
 	}
 
 	fmt.Print(rssFeed)
-
 	return nil
 }

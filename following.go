@@ -14,6 +14,5 @@ func handlerFollowing(s *state, cmd command) error {
 	for _, feed := range follows {
 		fmt.Printf("%s\n%s\n", feed.FeedsName, feed.UserName)
 	}
-
 	return nil
 }

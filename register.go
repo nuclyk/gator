@@ -37,6 +37,5 @@ func handlerRegister(s *state, cmd command) error {
 	}
 
 	fmt.Printf("New user was created in the database: %s", user.Name)
-
 	return nil
 }

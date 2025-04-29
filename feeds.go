@@ -18,6 +18,5 @@ func handlerGetFeeds(s *state, cmd command) error {
 		}
 		fmt.Printf("%v\n%v\n%v\n", feed.Name, feed.Url, user.Name)
 	}
-
 	return nil
 }

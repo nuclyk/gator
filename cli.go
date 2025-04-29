@@ -60,7 +60,6 @@ func initDBandState(cfg config.Config) state {
 		db:  dbQueries,
 		cfg: &cfg,
 	}
-
 	return currentState
 }
 
