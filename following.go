@@ -3,10 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/nuclyk/gator/internal/database"
 )
 
-func handlerFollowing(s *state, cmd command) error {
-	follows, err := s.db.GetFeedFollowsForUser(context.Background(), s.cfg.CurrentUserName)
+func handlerFollowing(s *state, cmd command, user database.User) error {
+	follows, err := s.db.GetFeedFollowsForUser(context.Background(), user.Name)
 	if err != nil {
 		return err
 	}

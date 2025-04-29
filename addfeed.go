@@ -13,15 +13,7 @@ import (
 // TODO: Add checking if the second argument is a link.
 // If I type in Google Blog https://google.com then the link will be Blog
 // instead of the actual link ad the Blog is the second argument. FIX IT!
-func handlerAddFeed(s *state, cmd command) error {
-	username := s.cfg.CurrentUserName
-	currentUser, err := s.db.GetUser(context.Background(), username)
-
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when fetching the user: %v", err)
-		os.Exit(1)
-	}
-
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.args) == 0 {
 		fmt.Fprintf(os.Stderr, "You need to provide name and url.")
 		os.Exit(1)
@@ -36,7 +28,7 @@ func handlerAddFeed(s *state, cmd command) error {
 		UpdatedAt: time.Now(),
 		Name:      cmd.args[0],
 		Url:       cmd.args[1],
-		UserID:    currentUser.ID,
+		UserID:    user.ID,
 	}
 
 	feed, err := s.db.CreateFeed(context.Background(), feedParams)
@@ -49,7 +41,7 @@ func handlerAddFeed(s *state, cmd command) error {
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 		FeedID:    feed.ID,
-		UserID:    currentUser.ID,
+		UserID:    user.ID,
 	}
 
 	_, err = s.db.CreateFeedFollow(context.Background(), feedFollow)
