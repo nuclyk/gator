@@ -7,6 +7,7 @@ import (
 	"os"
 
 	_ "github.com/lib/pq"
+
 	"github.com/nuclyk/gator/internal/config"
 	"github.com/nuclyk/gator/internal/database"
 )
@@ -38,6 +39,7 @@ func initCommands() commands {
 	cmds.register("feeds", handlerGetFeeds)
 	cmds.register("follow", middlewareLoggedIn(handlerFollow))
 	cmds.register("following", middlewareLoggedIn(handlerFollowing))
+	cmds.register("unfollow", middlewareLoggedIn(handlerUnfollow))
 	return cmds
 }
 

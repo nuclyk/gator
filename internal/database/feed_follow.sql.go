@@ -87,7 +87,7 @@ select feed_follows.id, feed_follows.created_at, feed_follows.updated_at, feed_f
 from feed_follows
 inner join feeds on feeds.id = feed_follows.feed_id
 inner join users on users.id = feed_follows.user_id
-where users.name = $1
+where feed_follows.user_id = $1
 `
 
 type GetFeedFollowsForUserRow struct {
@@ -100,8 +100,8 @@ type GetFeedFollowsForUserRow struct {
 	UserName  string
 }
 
-func (q *Queries) GetFeedFollowsForUser(ctx context.Context, name string) ([]GetFeedFollowsForUserRow, error) {
-	rows, err := q.db.QueryContext(ctx, getFeedFollowsForUser, name)
+func (q *Queries) GetFeedFollowsForUser(ctx context.Context, userID uuid.UUID) ([]GetFeedFollowsForUserRow, error) {
+	rows, err := q.db.QueryContext(ctx, getFeedFollowsForUser, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -129,4 +129,19 @@ func (q *Queries) GetFeedFollowsForUser(ctx context.Context, name string) ([]Get
 		return nil, err
 	}
 	return items, nil
+}
+
+const unfollow = `-- name: Unfollow :exec
+delete from feed_follows
+where user_id = $1 and feed_id = $2
+`
+
+type UnfollowParams struct {
+	UserID uuid.UUID
+	FeedID uuid.UUID
+}
+
+func (q *Queries) Unfollow(ctx context.Context, arg UnfollowParams) error {
+	_, err := q.db.ExecContext(ctx, unfollow, arg.UserID, arg.FeedID)
+	return err
 }

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+
 	"github.com/nuclyk/gator/internal/database"
 )
 
@@ -14,6 +15,7 @@ import (
 // If I type in Google Blog https://google.com then the link will be Blog
 // instead of the actual link ad the Blog is the second argument. FIX IT!
 func handlerAddFeed(s *state, cmd command, user database.User) error {
+
 	if len(cmd.args) == 0 {
 		fmt.Fprintf(os.Stderr, "You need to provide name and url.")
 		os.Exit(1)

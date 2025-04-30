@@ -1,18 +1,17 @@
 package main
 
 import (
-	"context"
-	"fmt"
+	"time"
 )
 
 func handlerAgg(s *state, cmd command) error {
-	feedUrl := "https://www.wagslane.dev/index.xml"
-	rssFeed, err := fetchFeed(context.Background(), feedUrl)
-
+	timeBetweenRequests, err := time.ParseDuration(cmd.args[0])
 	if err != nil {
-		return fmt.Errorf("Error when fetching rss feed: %w", err)
+		return err
 	}
 
-	fmt.Print(rssFeed)
-	return nil
+	ticker := time.NewTicker(timeBetweenRequests)
+	for ; ; <-ticker.C {
+		scrapeFeeds(s)
+	}
 }
