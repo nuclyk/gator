@@ -87,7 +87,7 @@ func (q *Queries) GetFeed(ctx context.Context, name string) (Feed, error) {
 
 const getFeedByUrl = `-- name: GetFeedByUrl :one
 select id, created_at, updated_at, name, url, user_id, last_fetched_at from feeds
-where url = $1 limit 1
+where url = $1
 `
 
 func (q *Queries) GetFeedByUrl(ctx context.Context, url string) (Feed, error) {
